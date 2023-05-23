@@ -25,7 +25,8 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Trip saveTrip(Trip trip) {
+    public Trip saveTrip(TripDTO tripDto) {
+        Trip trip = mapToTrip(tripDto);
         return tripRepository.save(trip);
     }
 

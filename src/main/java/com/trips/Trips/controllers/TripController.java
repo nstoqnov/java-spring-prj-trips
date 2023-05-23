@@ -3,9 +3,11 @@ package com.trips.Trips.controllers;
 import com.trips.Trips.dto.TripDTO;
 import com.trips.Trips.models.Trip;
 import com.trips.Trips.services.TripService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +35,10 @@ public class TripController {
         return "trips-create";
     }
     @PostMapping("/save")
-    public String saveTrip(@ModelAttribute("trip") Trip trip){
+    public String saveTrip(@Valid @ModelAttribute("trip") TripDTO trip, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "trips-create";
+        }
         tripService.saveTrip(trip);
         return "redirect:/trips";
     }
@@ -46,7 +51,10 @@ public class TripController {
     }
 
     @PostMapping("/trips/{id}/edit")
-    public String updateTrip(@PathVariable("id") Long tripId, @ModelAttribute("trip") TripDTO trip){
+    public String updateTrip(@PathVariable("id") Long tripId, @Valid @ModelAttribute("trip") TripDTO trip, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "trips-edit";
+        }
         trip.setId(tripId);
         tripService.updateTrip(trip);
         return "redirect:/trips";

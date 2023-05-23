@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface TripService {
     List<TripDTO> findAllTrips();
-    Trip saveTrip(Trip trip);
+    Trip saveTrip(TripDTO trip);
 
     TripDTO findTripById(Long tripId);
 
